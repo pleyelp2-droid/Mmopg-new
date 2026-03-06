@@ -1,0 +1,32 @@
+name: MMORPG Auto Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: install unzip
+        run: sudo apt-get install unzip
+
+      - name: unzip modules
+        run: unzip mmorpg_upload_ready.zip -d project
+
+      - name: merge modules
+        run: |
+          mkdir build
+          cp -r project/module1_core build/
+          cp -r project/module2_world build/
+          cp -r project/module3_kingdom build/
+
+      - name: upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmorpg-build
+          path: build
