@@ -1,17 +1,13 @@
 name: Unzip Upload
-
 on:
   push:
     branches:
       - main
     paths:
       - '**/*.zip'
-
 jobs:
   unzip:
-    runs-on: ubuntu-latest
-
-    steps:
+    runs-on:  'ubuntu-latest steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
@@ -23,4 +19,4 @@ jobs:
           unzip mmorpg_upload_ready.zip -d extracted
 
       - name: Show files
-        run: ls -R extracted
+        run: ls -R extracted'
