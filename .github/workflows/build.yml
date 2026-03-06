@@ -1,31 +1,38 @@
 name: MMORPG Build
+
 on:
-push:
-branches: [ main ]
+  push:
+    branches:
+      - main
+
 jobs:
-build:
-runs-on: ubuntu-latest
-steps:
-  - uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
 
-  - name: Install unzip
-    run: sudo apt-get update && sudo apt-get install unzip
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-  - name: Unzip modules
-    run: unzip mmorpg_upload_ready.zip -d project
+      - name: Install unzip
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip
 
-  - name: Merge modules
-    run: |
-      mkdir build
-      cp -r project/module1_core build/
-      cp -r project/module2_world build/
-      cp -r project/module3_kingdom build/
+      - name: Unzip modules
+        run: unzip mmorpg_upload_ready.zip -d project
 
-  - name: Show build
-    run: ls -R build
+      - name: Merge modules
+        run: |
+          mkdir -p build
+          cp -r project/module1_core build/
+          cp -r project/module2_world build/
+          cp -r project/module3_kingdom build/
 
-  - name: Upload build artifact
-    uses: actions/upload-artifact@v4
-    with:
-      name: mmorpg-build
-      path: build
+      - name: Show build
+        run: ls -R build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmorpg-build
+          path: build
